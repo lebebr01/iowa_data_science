@@ -463,11 +463,44 @@ summarise(
 )
 ```
 
+# Read in your own data
+- We will use data posted to GitHub: <https://github.com/lebebr01/iowa_data_science/tree/master/data>
+
 # Data Import
 ```{r ufo_read}
-ufo <- read_csv("Data/ufo.csv")
+ufo <- read_csv("https://raw.githubusercontent.com/lebebr01/iowa_data_science/master/data/ufo.csv")
 ufo
 ```
+
+# Manual column names
+```{r ufo_manual_names}
+read_csv("https://raw.githubusercontent.com/lebebr01/iowa_data_science/master/data/ufo.csv", 
+         skip = 1, 
+         col_names = c('Date/Time', 'City', 'State', 
+                       'Shape', 'Duration', 'Summary',
+                       'Posted'))
+```
+
+# Manual column types
+```{r date_time2}
+ufo_date <- read_csv("Data/ufo.csv", 
+         col_types = list(
+           'Date / Time' = col_datetime(format = "%m/%d/%y %H:%M"),
+           City = col_character(),
+           State = col_character(),
+           Shape = col_character(),
+           Duration = col_character(),
+           Summary = col_character(),
+           Posted = col_character()
+         ))
+ufo_date
+```
+
+# Still problems
+```{r problems}
+problems(ufo_date)
+```
+    
 
 # Other text formats
 - tsv - tab separated files - `read_tsv`
