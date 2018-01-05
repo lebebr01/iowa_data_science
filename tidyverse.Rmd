@@ -5,16 +5,20 @@ date: "January 10, 2018"
 ---
 
 # Course Setup
+```{r setup_chunks, echo = FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=6, fig.cap = NULL) 
+```
+
 ```{r setup, message = FALSE, eval = FALSE}
 install.packages("tidyverse")
 ```
 
-```{r library, message = FALSE}
+```{r library}
 library(tidyverse)
 ```
 
 # Explore Data
-```{r data, echo = FALSE}
+```{r data, echo = FALSE, results = 'asis'}
 DT::datatable(midwest)
 ```
 
@@ -109,7 +113,18 @@ ggplot(midwest, aes(x = popdensity, y = percollege)) +
 ```
 
 # Brief plot customization
-```{r breaks_x}
+```{r breaks_x, eval = FALSE}
+ggplot(midwest, 
+       aes(x = popdensity, y = percollege, color = state)) +
+  geom_point() + 
+  scale_x_continuous("Population Density", 
+                     breaks = seq(0, 80000, 20000)) + 
+  scale_y_continuous("Percent College Graduates") + 
+  scale_color_discrete("State")
+```
+
+# Brief plot customization Output
+```{r breaks_x2, echo = FALSE}
 ggplot(midwest, 
        aes(x = popdensity, y = percollege, color = state)) +
   geom_point() + 
@@ -194,9 +209,9 @@ install.packages('fivethirtyeight')
 library(fivethirtyeight)
 ```
 
-```{r data, echo = FALSE}
+```{r congress, echo = FALSE}
 library(fivethirtyeight)
-DT::datatable(congress_age)
+DT::datatable(congress_age[1:100, ])
 ```
 
 
@@ -380,7 +395,18 @@ summarise(congress_grp,
 ```
 
 # Explore trend
-```{r trend}
+```{r trend, eval = FALSE}
+num_dem <- summarise(congress_grp, 
+                     num_democrat = sum(democrat),
+                     total = n(),
+                     prop_democrat = num_democrat / total
+)
+ggplot(num_dem, aes(x = congress, y = prop_democrat)) + 
+  geom_line()
+```
+
+# Explore trend output
+```{r trend2, echo = FALSE}
 num_dem <- summarise(congress_grp, 
                      num_democrat = sum(democrat),
                      total = n(),
@@ -396,7 +422,20 @@ ggplot(num_dem, aes(x = congress, y = prop_democrat)) +
 
 
 # `group_by` with `mutate`
-```{r mutate_group}
+```{r mutate_group, eval = FALSE}
+congress_red <- select(congress_age, congress, chamber, state, party)
+congress_grp <- group_by(congress_red, congress)
+
+mutate(congress_grp, 
+       democrat = ifelse(party == 'D', 1, 0),
+       num_democrat = sum(democrat),
+       total = n(),
+       prop_democrat = num_democrat / total
+)
+```
+
+# `group_by` with `mutate` output
+```{r mutate_group2, echo = FALSE}
 congress_red <- select(congress_age, congress, chamber, state, party)
 congress_grp <- group_by(congress_red, congress)
 
@@ -409,7 +448,7 @@ mutate(congress_grp,
 ```
 
 # Chaining operations
-```{r chain_difficult}
+```{r chain_difficult, eval = FALSE}
 summarise(
   group_by(
     mutate(
@@ -427,7 +466,7 @@ summarise(
 ```
 
 # The pipe `%>%` is the answer
-```{r pipe}
+```{r pipe, eval = FALSE}
 congress_age %>%
   filter(congress >= 100) %>%
   mutate(democrat = ifelse(party == 'D', 1, 0)) %>%
@@ -438,6 +477,37 @@ congress_age %>%
     prop_democrat = num_democrat / total
   )
 ```
+
+# The two are identical
+```{r identical}
+pipe_congress <- congress_age %>%
+  filter(congress >= 100) %>%
+  mutate(democrat = ifelse(party == 'D', 1, 0)) %>%
+  group_by(congress, chamber) %>%
+  summarise(
+    num_democrat = sum(democrat),
+    total = n(),
+    prop_democrat = num_democrat / total
+  )
+
+nested_congress <- summarise(
+  group_by(
+    mutate(
+      filter(
+        congress_age, congress >= 100
+      ), 
+      democrat = ifelse(party == 'D', 1, 0)
+    ),
+    congress, chamber
+  ),
+  num_democrat = sum(democrat),
+  total = n(),
+  prop_democrat = num_democrat / total
+)
+
+identical(pipe_congress, nested_congress)
+```
+
 
 # Your Turn
 1. Look at the following nested code and determine what is being done. Then translate this code to use the pipe operator.
@@ -463,23 +533,64 @@ summarise(
 )
 ```
 
+# Other Useful dplyr functions
+There are a set of functions that can greatly simplify data operations. These functions end with:
+
++ `*_if` 
++ `*_each` 
++ `*_all`
++ `*_at`
+
+# Simple example
+```{r rename_if}
+rename_if(congress_age, is.character, toupper)
+```
+
+# More realistic example
+```{r summarise_if}
+starwars %>%
+  group_by(species, gender) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE)
+```
+
+# Can call more than one function
+```{r summarise_if2}
+starwars %>%
+  group_by(species, gender) %>%
+  summarise_if(is.numeric, funs(mean, median), na.rm = TRUE) %>%
+  add_tally()
+```
+
+
+
 # Read in your own data
 - We will use data posted to GitHub: <https://github.com/lebebr01/iowa_data_science/tree/master/data>
 
 # Data Import
 ```{r ufo_read}
 ufo <- read_csv("https://raw.githubusercontent.com/lebebr01/iowa_data_science/master/data/ufo.csv")
+```
+
+# Show Data
+```{r ufo_data}
 ufo
 ```
 
+
 # Manual column names
 ```{r ufo_manual_names}
-read_csv("https://raw.githubusercontent.com/lebebr01/iowa_data_science/master/data/ufo.csv", 
+ufo_man <- read_csv("https://raw.githubusercontent.com/lebebr01/iowa_data_science/master/data/ufo.csv", 
          skip = 1, 
          col_names = c('Date/Time', 'City', 'State', 
                        'Shape', 'Duration', 'Summary',
                        'Posted'))
 ```
+
+# Manual column names output
+```{r ufo_output}
+ufo_man
+```
+
 
 # Manual column types
 ```{r date_time2}
@@ -493,8 +604,13 @@ ufo_date <- read_csv("Data/ufo.csv",
            Summary = col_character(),
            Posted = col_character()
          ))
+```
+
+# Manual column types output
+```{r ufo_types}
 ufo_date
 ```
+
 
 # Still problems
 ```{r problems}
@@ -507,3 +623,32 @@ problems(ufo_date)
 - fixed width files - `read_fwf`
 - white space generally - `read_table`
 - delimiter generally - `read_delim`
+
+# Your Turn
+1. There is a tsv file posted on icon called "lotr_clean.tsv". Download this and read this data file into R. 
+2. Instead of specifying the path, use the function `file.choose()`. For example, `read_tsv(file.choose())`. 
+    + What does this function do? 
+    + Would you recommend this to be used in a reproducible document?
+    
+# Excel Files
+```{r readxl, eval = FALSE}
+install.packages('readxl')
+```
+
+# `read_excel`
+```{r read_excel}
+library(readxl)
+read_excel('data/titanic.xlsx')
+```
+
+# Write Output Files
+```{r write, eval = FALSE}
+ufo_count <- ufo %>%
+  group_by(State) %>%
+  mutate(num_state = n())
+
+write_csv(ufo_count, path = 'path/to/save/file.csv')
+```
+
+# Additional Resources
++ R for Data Science: <http://r4ds.had.co.nz/>

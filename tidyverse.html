@@ -66,6 +66,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   	.reveal h1 { font-size: 2em; }
   	.reveal h2 {font-size: 1.25em;}
   	.reveal h3 {font-size: 1em;}
+  Reveal.initialize({
+  
+  	...
+  
+  	width: "100%",
+  	height: "100%",
+  	margin: 0,
+  	minScale: 1,
+  	maxScale: 1
+  });
   	body {
     background-image: url(figures/ui_logo.jpg);
     position: absolute;
@@ -92,27 +102,146 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </section>
 <section id="explore-data" class="slide level1">
 <h1>Explore Data</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">midwest</code></pre></div>
-<pre><code>## # A tibble: 437 x 28
-##      PID    county state  area poptotal popdensity popwhite popblack
-##    &lt;int&gt;     &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;int&gt;      &lt;dbl&gt;    &lt;int&gt;    &lt;int&gt;
-##  1   561     ADAMS    IL 0.052    66090  1270.9615    63917     1702
-##  2   562 ALEXANDER    IL 0.014    10626   759.0000     7054     3496
-##  3   563      BOND    IL 0.022    14991   681.4091    14477      429
-##  4   564     BOONE    IL 0.017    30806  1812.1176    29344      127
-##  5   565     BROWN    IL 0.018     5836   324.2222     5264      547
-##  6   566    BUREAU    IL 0.050    35688   713.7600    35157       50
-##  7   567   CALHOUN    IL 0.017     5322   313.0588     5298        1
-##  8   568   CARROLL    IL 0.027    16805   622.4074    16519      111
-##  9   569      CASS    IL 0.024    13437   559.8750    13384       16
-## 10   570 CHAMPAIGN    IL 0.058   173025  2983.1897   146506    16559
-## # ... with 427 more rows, and 20 more variables: popamerindian &lt;int&gt;,
-## #   popasian &lt;int&gt;, popother &lt;int&gt;, percwhite &lt;dbl&gt;, percblack &lt;dbl&gt;,
-## #   percamerindan &lt;dbl&gt;, percasian &lt;dbl&gt;, percother &lt;dbl&gt;,
-## #   popadults &lt;int&gt;, perchsd &lt;dbl&gt;, percollege &lt;dbl&gt;, percprof &lt;dbl&gt;,
-## #   poppovertyknown &lt;int&gt;, percpovertyknown &lt;dbl&gt;, percbelowpoverty &lt;dbl&gt;,
-## #   percchildbelowpovert &lt;dbl&gt;, percadultpoverty &lt;dbl&gt;,
-## #   percelderlypoverty &lt;dbl&gt;, inmetro &lt;int&gt;, category &lt;chr&gt;</code></pre>
+<figure>
+<img src="figure/data-1.png" alt="plot of chunk data" /><figcaption>plot of chunk data</figcaption>
+</figure>
+</section>
+<section id="first-ggplot" class="slide level1">
+<h1>First ggplot</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> midwest) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege))</code></pre></div>
+<figure>
+<img src="figure/plot1-1.png" alt="plot of chunk plot1" /><figcaption>plot of chunk plot1</figcaption>
+</figure>
+</section>
+<section id="equivalent-code" class="slide level1">
+<h1>Equivalent Code</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege))</code></pre></div>
+<figure>
+<img src="figure/plot1_reduced-1.png" alt="plot of chunk plot1_reduced" /><figcaption>plot of chunk plot1_reduced</figcaption>
+</figure>
+</section>
+<section id="your-turn" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Try plotting <code>popdensity</code> by <code>state</code>.</li>
+<li>Try plotting <code>county</code> by <code>state</code>.
+<ul>
+<li>Does this plot work?</li>
+</ul></li>
+<li>Bonus: Try just using the <code>ggplot(data = midwest)</code> from above.
+<ul>
+<li>What do you get?</li>
+<li>Does this make sense?</li>
+</ul></li>
+</ol>
+</section>
+<section id="add-aesthetics" class="slide level1">
+<h1>Add Aesthetics</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege, <span class="dt">color =</span> state))</code></pre></div>
+<figure>
+<img src="figure/aesthetic-1.png" alt="plot of chunk aesthetic" /><figcaption>plot of chunk aesthetic</figcaption>
+</figure>
+</section>
+<section id="global-aesthetics" class="slide level1">
+<h1>Global Aesthetics</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege), <span class="dt">color =</span> <span class="st">&#39;pink&#39;</span>)</code></pre></div>
+<figure>
+<img src="figure/global_aes-1.png" alt="plot of chunk global_aes" /><figcaption>plot of chunk global_aes</figcaption>
+</figure>
+</section>
+<section id="your-turn-1" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Instead of using colors, make the shape of the points different for each state.</li>
+<li>Instead of color, use <code>alpha</code> instead.
+<ul>
+<li>What does this do to the plot?</li>
+</ul></li>
+<li>Try the following command: <code>colors()</code>.
+<ul>
+<li>Try a few colors to find your favorite.</li>
+</ul></li>
+<li>What happens if you use the following code:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege, <span class="dt">color =</span> <span class="st">&#39;green&#39;</span>))</code></pre></div>
+</section>
+<section id="additional-geoms" class="slide level1">
+<h1>Additional Geoms</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege))</code></pre></div>
+<figure>
+<img src="figure/smooth-1.png" alt="plot of chunk smooth" /><figcaption>plot of chunk smooth</figcaption>
+</figure>
+</section>
+<section id="add-more-aesthetics" class="slide level1">
+<h1>Add more Aesthetics</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege, <span class="dt">linetype =</span> state), 
+              <span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<figure>
+<img src="figure/smooth_states-1.png" alt="plot of chunk smooth_states" /><figcaption>plot of chunk smooth_states</figcaption>
+</figure>
+</section>
+<section id="your-turn-2" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>It is possible to combine geoms, which we will do next, but try it first. Try to recreate this plot. <img src="figure/combine-1.png" alt="plot of chunk combine" /></li>
+</ol>
+</section>
+<section id="layered-ggplot" class="slide level1">
+<h1>Layered ggplot</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege, <span class="dt">color =</span> state)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege, <span class="dt">color =</span> state), 
+              <span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<figure>
+<img src="figure/combine_geoms-1.png" alt="plot of chunk combine_geoms" /><figcaption>plot of chunk combine_geoms</figcaption>
+</figure>
+</section>
+<section id="remove-duplicate-aesthetics" class="slide level1">
+<h1>Remove duplicate aesthetics</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest, 
+       <span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege, <span class="dt">color =</span> state)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<figure>
+<img src="figure/two_geoms-1.png" alt="plot of chunk two_geoms" /><figcaption>plot of chunk two_geoms</figcaption>
+</figure>
+</section>
+<section id="your-turn-3" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Can you recreate the following figure? <img src="figure/differ_aes-1.png" alt="plot of chunk differ_aes" /></li>
+</ol>
+</section>
+<section id="brief-plot-customization" class="slide level1">
+<h1>Brief plot customization</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(midwest, 
+       <span class="kw">aes</span>(<span class="dt">x =</span> popdensity, <span class="dt">y =</span> percollege, <span class="dt">color =</span> state)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Population Density&quot;</span>, 
+                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">80000</span>, <span class="dv">20000</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Percent College Graduates&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_color_discrete</span>(<span class="st">&quot;State&quot;</span>)</code></pre></div>
+</section>
+<section id="brief-plot-customization-output" class="slide level1">
+<h1>Brief plot customization Output</h1>
+<figure>
+<img src="figure/breaks_x2-1.png" alt="plot of chunk breaks_x2" /><figcaption>plot of chunk breaks_x2</figcaption>
+</figure>
+</section>
+<section id="additional-ggplot2-resources" class="slide level1">
+<h1>Additional ggplot2 resources</h1>
+<ul>
+<li>ggplot2 website: <a href="http://docs.ggplot2.org/current/index.html" class="uri">http://docs.ggplot2.org/current/index.html</a></li>
+<li>ggplot2 book: <a href="http://www.springer.com/us/book/9780387981413" class="uri">http://www.springer.com/us/book/9780387981413</a></li>
+<li>R graphics cookbook: <a href="http://www.cookbook-r.com/Graphs/" class="uri">http://www.cookbook-r.com/Graphs/</a></li>
+</ul>
 </section>
 <section id="r-works-as-a-calculator" class="slide level1">
 <h1>R works as a calculator</h1>
@@ -122,6 +251,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <pre><code>## [1] 35</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span><span class="op">/</span><span class="dv">1</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
+</section>
+<section id="r-calculator-2" class="slide level1">
+<h1>R Calculator 2</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="dv">4</span>)</code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span><span class="op">^</span><span class="dv">2</span></code></pre></div>
@@ -144,20 +276,929 @@ Case_sensitive</code></pre></div>
 <section id="r-functions" class="slide level1">
 <h1>R Functions</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
-<span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</code></pre></div>
-<pre><code>##  [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078 -0.8204684
-##  [7]  0.4874291  0.7383247  0.5757814 -0.3053884</code></pre>
+<span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</code></pre></div>
+<pre><code>## [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
-<span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</code></pre></div>
-<pre><code>##  [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078 -0.8204684
-##  [7]  0.4874291  0.7383247  0.5757814 -0.3053884</code></pre>
+<span class="kw">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">1</span>)</code></pre></div>
+<pre><code>## [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
-<span class="kw">rnorm</span>(<span class="dt">sd =</span> <span class="dv">1</span>, <span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">0</span>)</code></pre></div>
-<pre><code>##  [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078 -0.8204684
-##  [7]  0.4874291  0.7383247  0.5757814 -0.3053884</code></pre>
+<span class="kw">rnorm</span>(<span class="dt">sd =</span> <span class="dv">1</span>, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">mean =</span> <span class="dv">0</span>)</code></pre></div>
+<pre><code>## [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078</code></pre>
 </section>
 <section id="working-through-errors" class="slide level1">
 <h1>Working through Errors</h1>
+<ol type="1">
+<li>Use <code>?function_name</code> to explore the details of the function. The examples at the bottom of every R help page can be especially helpful.
+<ul>
+<li><a href="https://www.rdocumentation.org/" class="uri">https://www.rdocumentation.org/</a> provided by DataCamp is a great alternative as well.</li>
+</ul></li>
+<li>If this does not help, copy and paste the error and search on the internet.</li>
+</ol>
+</section>
+<section id="using-dplyr-for-data-manipulation" class="slide level1">
+<h1>Using <code>dplyr</code> for data manipulation</h1>
+<p>The <code>dplyr</code> package uses verbs for common data manipulation tasks. These include:</p>
+<ul>
+<li><code>filter()</code></li>
+<li><code>count()</code></li>
+<li><code>arrange()</code></li>
+<li><code>select()</code></li>
+<li><code>mutate()</code></li>
+<li><code>summarise()</code></li>
+</ul>
+</section>
+<section id="data" class="slide level1">
+<h1>Data</h1>
+<p><a href="https://fivethirtyeight.com/features/both-republicans-and-democrats-have-an-age-problem/" class="uri">https://fivethirtyeight.com/features/both-republicans-and-democrats-have-an-age-problem/</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&#39;fivethirtyeight&#39;</span>)
+<span class="kw">library</span>(fivethirtyeight)</code></pre></div>
+<figure>
+<img src="figure/congress-1.png" alt="plot of chunk congress" /><figcaption>plot of chunk congress</figcaption>
+</figure>
+</section>
+<section id="using-filter" class="slide level1">
+<h1>Using <code>filter</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(congress_age, congress <span class="op">==</span><span class="st"> </span><span class="dv">80</span>)</code></pre></div>
+<pre><code>## # A tibble: 555 x 13
+##    congress chamber bioguide firstname middlename  lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  M000112    Joseph  Jefferson Mansfield   &lt;NA&gt;
+##  2       80   house  D000448    Robert        Lee  Doughton   &lt;NA&gt;
+##  3       80   house  S000001    Adolph    Joachim    Sabath   &lt;NA&gt;
+##  4       80   house  E000023   Charles     Aubrey     Eaton   &lt;NA&gt;
+##  5       80   house  L000296   William       &lt;NA&gt;     Lewis   &lt;NA&gt;
+##  6       80   house  G000017     James         A. Gallagher   &lt;NA&gt;
+##  7       80   house  W000265   Richard     Joseph     Welch   &lt;NA&gt;
+##  8       80   house  B000565       Sol       &lt;NA&gt;     Bloom   &lt;NA&gt;
+##  9       80   house  H000943    Merlin       &lt;NA&gt;      Hull   &lt;NA&gt;
+## 10       80   house  G000169   Charles   Laceille   Gifford   &lt;NA&gt;
+## # ... with 545 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="save-filtered-results-to-object" class="slide level1">
+<h1>Save filtered results to object</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">congress_<span class="dv">80</span> &lt;-<span class="st"> </span><span class="kw">filter</span>(congress_age, congress <span class="op">==</span><span class="st"> </span><span class="dv">80</span>)</code></pre></div>
+</section>
+<section id="other-operators-for-numbers" class="slide level1">
+<h1>Other operators for numbers</h1>
+<ul>
+<li><code>&gt;</code></li>
+<li><code>&lt;</code></li>
+<li><code>&gt;=</code></li>
+<li><code>&lt;=</code></li>
+</ul>
+</section>
+<section id="your-turn-4" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Select all rows where the congress member was older than 80 at the start of the term.</li>
+<li>Use the <code>is.na</code> function to identify congress members that have missing middlenames.</li>
+</ol>
+</section>
+<section id="filter-character-variables" class="slide level1">
+<h1>Filter character variables</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">senate &lt;-<span class="st"> </span><span class="kw">filter</span>(congress_age, chamber <span class="op">==</span><span class="st"> &#39;senate&#39;</span>)</code></pre></div>
+</section>
+<section id="combine-operations---and" class="slide level1">
+<h1>Combine Operations - AND</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(congress_age, congress <span class="op">==</span><span class="st"> </span><span class="dv">80</span>, chamber <span class="op">==</span><span class="st"> &#39;senate&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 102 x 13
+##    congress chamber bioguide firstname middlename lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;
+##  1       80  senate  C000133    Arthur       &lt;NA&gt;   Capper   &lt;NA&gt;
+##  2       80  senate  G000418  Theodore    Francis    Green   &lt;NA&gt;
+##  3       80  senate  M000499   Kenneth    Douglas McKellar   &lt;NA&gt;
+##  4       80  senate  R000112     Clyde     Martin     Reed   &lt;NA&gt;
+##  5       80  senate  M000895    Edward       Hall    Moore   &lt;NA&gt;
+##  6       80  senate  O000146      John     Holmes  Overton   &lt;NA&gt;
+##  7       80  senate  M001108     James     Edward   Murray   &lt;NA&gt;
+##  8       80  senate  M000308   Patrick    Anthony McCarran   &lt;NA&gt;
+##  9       80  senate  T000165     Elmer       &lt;NA&gt;   Thomas   &lt;NA&gt;
+## 10       80  senate  W000021    Robert  Ferdinand   Wagner   &lt;NA&gt;
+## # ... with 92 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="equivalent-and-statement" class="slide level1">
+<h1>Equivalent AND Statement</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(congress_age, congress <span class="op">==</span><span class="st"> </span><span class="dv">80</span> <span class="op">&amp;</span><span class="st"> </span>chamber <span class="op">==</span><span class="st"> &#39;senate&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 102 x 13
+##    congress chamber bioguide firstname middlename lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;
+##  1       80  senate  C000133    Arthur       &lt;NA&gt;   Capper   &lt;NA&gt;
+##  2       80  senate  G000418  Theodore    Francis    Green   &lt;NA&gt;
+##  3       80  senate  M000499   Kenneth    Douglas McKellar   &lt;NA&gt;
+##  4       80  senate  R000112     Clyde     Martin     Reed   &lt;NA&gt;
+##  5       80  senate  M000895    Edward       Hall    Moore   &lt;NA&gt;
+##  6       80  senate  O000146      John     Holmes  Overton   &lt;NA&gt;
+##  7       80  senate  M001108     James     Edward   Murray   &lt;NA&gt;
+##  8       80  senate  M000308   Patrick    Anthony McCarran   &lt;NA&gt;
+##  9       80  senate  T000165     Elmer       &lt;NA&gt;   Thomas   &lt;NA&gt;
+## 10       80  senate  W000021    Robert  Ferdinand   Wagner   &lt;NA&gt;
+## # ... with 92 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="filter---or" class="slide level1">
+<h1>Filter - OR</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(congress_age, congress <span class="op">==</span><span class="st"> </span><span class="dv">80</span> <span class="op">|</span><span class="st"> </span>congress <span class="op">==</span><span class="st"> </span><span class="dv">81</span>)</code></pre></div>
+<pre><code>## # A tibble: 1,112 x 13
+##    congress chamber bioguide firstname middlename  lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  M000112    Joseph  Jefferson Mansfield   &lt;NA&gt;
+##  2       80   house  D000448    Robert        Lee  Doughton   &lt;NA&gt;
+##  3       80   house  S000001    Adolph    Joachim    Sabath   &lt;NA&gt;
+##  4       80   house  E000023   Charles     Aubrey     Eaton   &lt;NA&gt;
+##  5       80   house  L000296   William       &lt;NA&gt;     Lewis   &lt;NA&gt;
+##  6       80   house  G000017     James         A. Gallagher   &lt;NA&gt;
+##  7       80   house  W000265   Richard     Joseph     Welch   &lt;NA&gt;
+##  8       80   house  B000565       Sol       &lt;NA&gt;     Bloom   &lt;NA&gt;
+##  9       80   house  H000943    Merlin       &lt;NA&gt;      Hull   &lt;NA&gt;
+## 10       80   house  G000169   Charles   Laceille   Gifford   &lt;NA&gt;
+## # ... with 1,102 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="in" class="slide level1">
+<h1><code>%in%</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(congress_age, congress <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">80</span>, <span class="dv">81</span>))</code></pre></div>
+<pre><code>## # A tibble: 1,112 x 13
+##    congress chamber bioguide firstname middlename  lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  M000112    Joseph  Jefferson Mansfield   &lt;NA&gt;
+##  2       80   house  D000448    Robert        Lee  Doughton   &lt;NA&gt;
+##  3       80   house  S000001    Adolph    Joachim    Sabath   &lt;NA&gt;
+##  4       80   house  E000023   Charles     Aubrey     Eaton   &lt;NA&gt;
+##  5       80   house  L000296   William       &lt;NA&gt;     Lewis   &lt;NA&gt;
+##  6       80   house  G000017     James         A. Gallagher   &lt;NA&gt;
+##  7       80   house  W000265   Richard     Joseph     Welch   &lt;NA&gt;
+##  8       80   house  B000565       Sol       &lt;NA&gt;     Bloom   &lt;NA&gt;
+##  9       80   house  H000943    Merlin       &lt;NA&gt;      Hull   &lt;NA&gt;
+## 10       80   house  G000169   Charles   Laceille   Gifford   &lt;NA&gt;
+## # ... with 1,102 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="not-operator" class="slide level1">
+<h1>Not Operator</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(congress_age, congress <span class="op">!=</span><span class="st"> </span><span class="dv">80</span>)</code></pre></div>
+<pre><code>## # A tibble: 18,080 x 13
+##    congress chamber bioguide firstname middlename lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;
+##  1       81   house  D000448    Robert        Lee Doughton   &lt;NA&gt;
+##  2       81   house  S000001    Adolph    Joachim   Sabath   &lt;NA&gt;
+##  3       81   house  E000023   Charles     Aubrey    Eaton   &lt;NA&gt;
+##  4       81   house  W000265   Richard     Joseph    Welch   &lt;NA&gt;
+##  5       81   house  B000565       Sol       &lt;NA&gt;    Bloom   &lt;NA&gt;
+##  6       81   house  H000943    Merlin       &lt;NA&gt;     Hull   &lt;NA&gt;
+##  7       81   house  B000545  Schuyler       Otis    Bland   &lt;NA&gt;
+##  8       81   house  K000138      John      Hosea     Kerr   &lt;NA&gt;
+##  9       81   house  C000932    Robert       &lt;NA&gt;  Crosser   &lt;NA&gt;
+## 10       81   house  K000039      John       &lt;NA&gt;      Kee   &lt;NA&gt;
+## # ... with 18,070 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="not-operator-2" class="slide level1">
+<h1>Not Operator 2</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(congress_age, congress <span class="op">==</span><span class="st"> </span><span class="dv">80</span> <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>chamber <span class="op">==</span><span class="st"> &#39;senate&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 453 x 13
+##    congress chamber bioguide firstname middlename  lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  M000112    Joseph  Jefferson Mansfield   &lt;NA&gt;
+##  2       80   house  D000448    Robert        Lee  Doughton   &lt;NA&gt;
+##  3       80   house  S000001    Adolph    Joachim    Sabath   &lt;NA&gt;
+##  4       80   house  E000023   Charles     Aubrey     Eaton   &lt;NA&gt;
+##  5       80   house  L000296   William       &lt;NA&gt;     Lewis   &lt;NA&gt;
+##  6       80   house  G000017     James         A. Gallagher   &lt;NA&gt;
+##  7       80   house  W000265   Richard     Joseph     Welch   &lt;NA&gt;
+##  8       80   house  B000565       Sol       &lt;NA&gt;     Bloom   &lt;NA&gt;
+##  9       80   house  H000943    Merlin       &lt;NA&gt;      Hull   &lt;NA&gt;
+## 10       80   house  G000169   Charles   Laceille   Gifford   &lt;NA&gt;
+## # ... with 443 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="working-with-logicals" class="slide level1">
+<h1>Working with logicals</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(congress_age, incumbent)</code></pre></div>
+<pre><code>## # A tibble: 15,698 x 13
+##    congress chamber bioguide firstname middlename  lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  M000112    Joseph  Jefferson Mansfield   &lt;NA&gt;
+##  2       80   house  D000448    Robert        Lee  Doughton   &lt;NA&gt;
+##  3       80   house  S000001    Adolph    Joachim    Sabath   &lt;NA&gt;
+##  4       80   house  E000023   Charles     Aubrey     Eaton   &lt;NA&gt;
+##  5       80   house  W000265   Richard     Joseph     Welch   &lt;NA&gt;
+##  6       80   house  B000565       Sol       &lt;NA&gt;     Bloom   &lt;NA&gt;
+##  7       80   house  H000943    Merlin       &lt;NA&gt;      Hull   &lt;NA&gt;
+##  8       80   house  G000169   Charles   Laceille   Gifford   &lt;NA&gt;
+##  9       80   house  B000545  Schuyler       Otis     Bland   &lt;NA&gt;
+## 10       80   house  R000358      John   Marshall   Robsion   &lt;NA&gt;
+## # ... with 15,688 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="your-turn-5" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Select the Senators from Iowa.</li>
+<li>Select the Senators from Iowa that are not inbumbents.</li>
+</ol>
+</section>
+<section id="all-boolean-options" class="slide level1">
+<h1>All boolean options</h1>
+<figure>
+<img src="figures/boolean.png" />
+</figure>
+</section>
+<section id="using-count" class="slide level1">
+<h1>Using <code>count</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">count</span>(congress_age, party)</code></pre></div>
+<pre><code>## # A tibble: 6 x 2
+##   party     n
+##   &lt;chr&gt; &lt;int&gt;
+## 1    AL     3
+## 2     D 10290
+## 3     I    63
+## 4    ID     4
+## 5     L     1
+## 6     R  8274</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">count</span>(congress_age, incumbent)</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   incumbent     n
+##       &lt;lgl&gt; &lt;int&gt;
+## 1     FALSE  2937
+## 2      TRUE 15698</code></pre>
+</section>
+<section id="using-arrange" class="slide level1">
+<h1>Using <code>arrange</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(congress_age, state)</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 13
+##    congress chamber bioguide firstname middlename lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  2       81   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  3       82   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  4       83   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  5       84   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  6       85   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  7       86   house  R000282     Ralph     Julian   Rivers   &lt;NA&gt;
+##  8       86  senate  G000508    Ernest       &lt;NA&gt; Gruening   &lt;NA&gt;
+##  9       86  senate  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+## 10       87   house  R000282     Ralph     Julian   Rivers   &lt;NA&gt;
+## # ... with 18,625 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="add-more-variables" class="slide level1">
+<h1>Add more variables</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(congress_age, state, party)</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 13
+##    congress chamber bioguide firstname middlename lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  2       81   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  3       82   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  4       83   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  5       84   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  6       85   house  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+##  7       86   house  R000282     Ralph     Julian   Rivers   &lt;NA&gt;
+##  8       86  senate  G000508    Ernest       &lt;NA&gt; Gruening   &lt;NA&gt;
+##  9       86  senate  B000201    Edward      Lewis Bartlett   &lt;NA&gt;
+## 10       87   house  R000282     Ralph     Julian   Rivers   &lt;NA&gt;
+## # ... with 18,625 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="descending-order" class="slide level1">
+<h1>Descending Order</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(congress_age, <span class="kw">desc</span>(congress))</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 13
+##    congress chamber bioguide firstname middlename  lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1      113   house  H000067     Ralph         M.      Hall   &lt;NA&gt;
+##  2      113   house  D000355      John         D.   Dingell   &lt;NA&gt;
+##  3      113   house  C000714      John       &lt;NA&gt;   Conyers    Jr.
+##  4      113   house  S000480    Louise   McIntosh Slaughter   &lt;NA&gt;
+##  5      113   house  R000053   Charles         B.    Rangel   &lt;NA&gt;
+##  6      113   house  J000174       Sam     Robert   Johnson   &lt;NA&gt;
+##  7      113   house  Y000031        C.    W. Bill     Young   &lt;NA&gt;
+##  8      113   house  C000556    Howard       &lt;NA&gt;     Coble   &lt;NA&gt;
+##  9      113   house  L000263    Sander         M.     Levin   &lt;NA&gt;
+## 10      113   house  Y000033       Don         E.     Young   &lt;NA&gt;
+## # ... with 18,625 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="your-turn-6" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Count the number of congress members from each party that are older than 80 at term start.</li>
+<li>Arrange the result from above by the variable n.</li>
+</ol>
+</section>
+<section id="using-select" class="slide level1">
+<h1>Using <code>select</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(congress_age, congress, chamber, party, age)</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 4
+##    congress chamber party   age
+##       &lt;int&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1       80   house     D  85.9
+##  2       80   house     D  83.2
+##  3       80   house     D  80.7
+##  4       80   house     R  78.8
+##  5       80   house     R  78.3
+##  6       80   house     R  78.0
+##  7       80   house     R  77.9
+##  8       80   house     D  76.8
+##  9       80   house     R  76.0
+## 10       80   house     R  75.8
+## # ... with 18,625 more rows</code></pre>
+</section>
+<section id="helper-functions" class="slide level1">
+<h1>Helper functions</h1>
+<ul>
+<li><code>starts_with()</code></li>
+<li><code>ends_with()</code></li>
+<li><code>contains()</code></li>
+<li><code>matches()</code></li>
+<li><code>num_range()</code></li>
+<li><code>:</code></li>
+<li><code>everything()</code></li>
+</ul>
+</section>
+<section id="starts_with-helper" class="slide level1">
+<h1><code>starts_with</code> helper</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(congress_age, <span class="kw">starts_with</span>(<span class="st">&#39;s&#39;</span>))</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 2
+##    suffix state
+##     &lt;chr&gt; &lt;chr&gt;
+##  1   &lt;NA&gt;    TX
+##  2   &lt;NA&gt;    NC
+##  3   &lt;NA&gt;    IL
+##  4   &lt;NA&gt;    NJ
+##  5   &lt;NA&gt;    KY
+##  6   &lt;NA&gt;    PA
+##  7   &lt;NA&gt;    CA
+##  8   &lt;NA&gt;    NY
+##  9   &lt;NA&gt;    WI
+## 10   &lt;NA&gt;    MA
+## # ... with 18,625 more rows</code></pre>
+</section>
+<section id="contains-helper" class="slide level1">
+<h1>Contains helper</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(congress_age, <span class="kw">contains</span>(<span class="st">&#39;name&#39;</span>))</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 3
+##    firstname middlename  lastname
+##        &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;
+##  1    Joseph  Jefferson Mansfield
+##  2    Robert        Lee  Doughton
+##  3    Adolph    Joachim    Sabath
+##  4   Charles     Aubrey     Eaton
+##  5   William       &lt;NA&gt;     Lewis
+##  6     James         A. Gallagher
+##  7   Richard     Joseph     Welch
+##  8       Sol       &lt;NA&gt;     Bloom
+##  9    Merlin       &lt;NA&gt;      Hull
+## 10   Charles   Laceille   Gifford
+## # ... with 18,625 more rows</code></pre>
+</section>
+<section id="colon" class="slide level1">
+<h1>Colon</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(congress_age, congress<span class="op">:</span>birthday)</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 8
+##    congress chamber bioguide firstname middlename  lastname suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  M000112    Joseph  Jefferson Mansfield   &lt;NA&gt;
+##  2       80   house  D000448    Robert        Lee  Doughton   &lt;NA&gt;
+##  3       80   house  S000001    Adolph    Joachim    Sabath   &lt;NA&gt;
+##  4       80   house  E000023   Charles     Aubrey     Eaton   &lt;NA&gt;
+##  5       80   house  L000296   William       &lt;NA&gt;     Lewis   &lt;NA&gt;
+##  6       80   house  G000017     James         A. Gallagher   &lt;NA&gt;
+##  7       80   house  W000265   Richard     Joseph     Welch   &lt;NA&gt;
+##  8       80   house  B000565       Sol       &lt;NA&gt;     Bloom   &lt;NA&gt;
+##  9       80   house  H000943    Merlin       &lt;NA&gt;      Hull   &lt;NA&gt;
+## 10       80   house  G000169   Charles   Laceille   Gifford   &lt;NA&gt;
+## # ... with 18,625 more rows, and 1 more variables: birthday &lt;date&gt;</code></pre>
+</section>
+<section id="drop-variables" class="slide level1">
+<h1>Drop variables</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(congress_age, <span class="op">-</span>firstname, <span class="op">-</span>state, <span class="op">-</span>party, <span class="op">-</span>incumbent, <span class="op">-</span>chamber)</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 8
+##    congress bioguide middlename  lastname suffix   birthday  termstart
+##       &lt;int&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;     &lt;date&gt;     &lt;date&gt;
+##  1       80  M000112  Jefferson Mansfield   &lt;NA&gt; 1861-02-09 1947-01-03
+##  2       80  D000448        Lee  Doughton   &lt;NA&gt; 1863-11-07 1947-01-03
+##  3       80  S000001    Joachim    Sabath   &lt;NA&gt; 1866-04-04 1947-01-03
+##  4       80  E000023     Aubrey     Eaton   &lt;NA&gt; 1868-03-29 1947-01-03
+##  5       80  L000296       &lt;NA&gt;     Lewis   &lt;NA&gt; 1868-09-22 1947-01-03
+##  6       80  G000017         A. Gallagher   &lt;NA&gt; 1869-01-16 1947-01-03
+##  7       80  W000265     Joseph     Welch   &lt;NA&gt; 1869-02-13 1947-01-03
+##  8       80  B000565       &lt;NA&gt;     Bloom   &lt;NA&gt; 1870-03-09 1947-01-03
+##  9       80  H000943       &lt;NA&gt;      Hull   &lt;NA&gt; 1870-12-18 1947-01-03
+## 10       80  G000169   Laceille   Gifford   &lt;NA&gt; 1871-03-15 1947-01-03
+## # ... with 18,625 more rows, and 1 more variables: age &lt;dbl&gt;</code></pre>
+</section>
+<section id="reorder-with-everything" class="slide level1">
+<h1>Reorder with <code>everything</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(congress_age, congress, chamber, incumbent, age, <span class="kw">everything</span>())</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 13
+##    congress chamber incumbent   age bioguide firstname middlename
+##       &lt;int&gt;   &lt;chr&gt;     &lt;lgl&gt; &lt;dbl&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;
+##  1       80   house      TRUE  85.9  M000112    Joseph  Jefferson
+##  2       80   house      TRUE  83.2  D000448    Robert        Lee
+##  3       80   house      TRUE  80.7  S000001    Adolph    Joachim
+##  4       80   house      TRUE  78.8  E000023   Charles     Aubrey
+##  5       80   house     FALSE  78.3  L000296   William       &lt;NA&gt;
+##  6       80   house     FALSE  78.0  G000017     James         A.
+##  7       80   house      TRUE  77.9  W000265   Richard     Joseph
+##  8       80   house      TRUE  76.8  B000565       Sol       &lt;NA&gt;
+##  9       80   house      TRUE  76.0  H000943    Merlin       &lt;NA&gt;
+## 10       80   house      TRUE  75.8  G000169   Charles   Laceille
+## # ... with 18,625 more rows, and 6 more variables: lastname &lt;chr&gt;,
+## #   suffix &lt;chr&gt;, birthday &lt;date&gt;, state &lt;chr&gt;, party &lt;chr&gt;,
+## #   termstart &lt;date&gt;</code></pre>
+</section>
+<section id="rename-function" class="slide level1">
+<h1><code>rename</code> function</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rename</span>(congress_age, <span class="dt">first_name =</span> firstname, <span class="dt">last_name =</span> lastname)</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 13
+##    congress chamber bioguide first_name middlename last_name suffix
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  M000112     Joseph  Jefferson Mansfield   &lt;NA&gt;
+##  2       80   house  D000448     Robert        Lee  Doughton   &lt;NA&gt;
+##  3       80   house  S000001     Adolph    Joachim    Sabath   &lt;NA&gt;
+##  4       80   house  E000023    Charles     Aubrey     Eaton   &lt;NA&gt;
+##  5       80   house  L000296    William       &lt;NA&gt;     Lewis   &lt;NA&gt;
+##  6       80   house  G000017      James         A. Gallagher   &lt;NA&gt;
+##  7       80   house  W000265    Richard     Joseph     Welch   &lt;NA&gt;
+##  8       80   house  B000565        Sol       &lt;NA&gt;     Bloom   &lt;NA&gt;
+##  9       80   house  H000943     Merlin       &lt;NA&gt;      Hull   &lt;NA&gt;
+## 10       80   house  G000169    Charles   Laceille   Gifford   &lt;NA&gt;
+## # ... with 18,625 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   state &lt;chr&gt;, party &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="your-turn-7" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Using the <code>dplyr</code> helper functions, select all the variables that start with the letter ‘c’.</li>
+<li>Rename the first three variables in the congress data to ‘x1’, ‘x2’, ‘x3’.</li>
+<li>After renaming the first three variables, use this new data (ensure you saved the previous step to an object) to select these three variables with the <code>num_range</code> function.</li>
+</ol>
+</section>
+<section id="using-mutate" class="slide level1">
+<h1>Using <code>mutate</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">congress_red &lt;-<span class="st"> </span><span class="kw">select</span>(congress_age, congress, chamber, state, party)
+
+<span class="kw">mutate</span>(congress_red, 
+       <span class="dt">democrat =</span> <span class="kw">ifelse</span>(party <span class="op">==</span><span class="st"> &#39;D&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>),
+       <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat)
+       )</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 6
+##    congress chamber state party democrat num_democrat
+##       &lt;int&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;        &lt;dbl&gt;
+##  1       80   house    TX     D        1        10290
+##  2       80   house    NC     D        1        10290
+##  3       80   house    IL     D        1        10290
+##  4       80   house    NJ     R        0        10290
+##  5       80   house    KY     R        0        10290
+##  6       80   house    PA     R        0        10290
+##  7       80   house    CA     R        0        10290
+##  8       80   house    NY     D        1        10290
+##  9       80   house    WI     R        0        10290
+## 10       80   house    MA     R        0        10290
+## # ... with 18,625 more rows</code></pre>
+</section>
+<section id="your-turn-8" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Using the <code>diamonds</code> data, use <code>?diamonds</code> for more information on the data, use the <code>mutate</code> function to calculate the price per carat. Hint, this operation would involve standardizing the price variable so that all are comparable at 1 carat.</li>
+<li>Using <code>mutate</code>, calculate the rank of the original price variable and the new price variable calculated above using the <code>min_rank</code> function. Are there differences in the ranking of the prices?</li>
+</ol>
+</section>
+<section id="using-summarise" class="slide level1">
+<h1>Using <code>summarise</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">congress_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">mutate</span>(congress_age, 
+       <span class="dt">democrat =</span> <span class="kw">ifelse</span>(party <span class="op">==</span><span class="st"> &#39;D&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+       )
+
+<span class="kw">summarise</span>(congress_<span class="dv">2</span>, 
+          <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat)
+          )</code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   num_democrat
+##          &lt;dbl&gt;
+## 1        10290</code></pre>
+</section>
+<section id="group_by" class="slide level1">
+<h1><code>group_by</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">congress_grp &lt;-<span class="st"> </span><span class="kw">group_by</span>(congress_<span class="dv">2</span>, congress)
+
+<span class="kw">summarise</span>(congress_grp, 
+          <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat),
+          <span class="dt">total =</span> <span class="kw">n</span>(),
+          <span class="dt">prop_democrat =</span> num_democrat <span class="op">/</span><span class="st"> </span>total
+)</code></pre></div>
+<pre><code>## # A tibble: 34 x 4
+##    congress num_democrat total prop_democrat
+##       &lt;int&gt;        &lt;dbl&gt; &lt;int&gt;         &lt;dbl&gt;
+##  1       80          247   555     0.4450450
+##  2       81          330   557     0.5924596
+##  3       82          292   555     0.5261261
+##  4       83          274   557     0.4919210
+##  5       84          288   544     0.5294118
+##  6       85          295   547     0.5393053
+##  7       86          356   554     0.6425993
+##  8       87          339   559     0.6064401
+##  9       88          332   552     0.6014493
+## 10       89          371   548     0.6770073
+## # ... with 24 more rows</code></pre>
+</section>
+<section id="explore-trend" class="slide level1">
+<h1>Explore trend</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">num_dem &lt;-<span class="st"> </span><span class="kw">summarise</span>(congress_grp, 
+                     <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat),
+                     <span class="dt">total =</span> <span class="kw">n</span>(),
+                     <span class="dt">prop_democrat =</span> num_democrat <span class="op">/</span><span class="st"> </span>total
+)
+<span class="kw">ggplot</span>(num_dem, <span class="kw">aes</span>(<span class="dt">x =</span> congress, <span class="dt">y =</span> prop_democrat)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_line</span>()</code></pre></div>
+</section>
+<section id="explore-trend-output" class="slide level1">
+<h1>Explore trend output</h1>
+<figure>
+<img src="figure/trend2-1.png" alt="plot of chunk trend2" /><figcaption>plot of chunk trend2</figcaption>
+</figure>
+</section>
+<section id="your-turn-9" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Suppose we wanted to calculate the number and proportion of republicans instead of democrats, assuming these are the only two parties, edit the <code>summarise</code> command above to calculate these values.</li>
+<li>Suppose instead of using <code>sum(democrat)</code> above, we used <code>mean(democrat)</code>, what does this value return? Why does it return this value?</li>
+</ol>
+</section>
+<section id="group_by-with-mutate" class="slide level1">
+<h1><code>group_by</code> with <code>mutate</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">congress_red &lt;-<span class="st"> </span><span class="kw">select</span>(congress_age, congress, chamber, state, party)
+congress_grp &lt;-<span class="st"> </span><span class="kw">group_by</span>(congress_red, congress)
+
+<span class="kw">mutate</span>(congress_grp, 
+       <span class="dt">democrat =</span> <span class="kw">ifelse</span>(party <span class="op">==</span><span class="st"> &#39;D&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>),
+       <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat),
+       <span class="dt">total =</span> <span class="kw">n</span>(),
+       <span class="dt">prop_democrat =</span> num_democrat <span class="op">/</span><span class="st"> </span>total
+)</code></pre></div>
+</section>
+<section id="group_by-with-mutate-output" class="slide level1">
+<h1><code>group_by</code> with <code>mutate</code> output</h1>
+<pre><code>## # A tibble: 18,635 x 8
+## # Groups:   congress [34]
+##    congress chamber state party democrat num_democrat total prop_democrat
+##       &lt;int&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;int&gt;         &lt;dbl&gt;
+##  1       80   house    TX     D        1          247   555      0.445045
+##  2       80   house    NC     D        1          247   555      0.445045
+##  3       80   house    IL     D        1          247   555      0.445045
+##  4       80   house    NJ     R        0          247   555      0.445045
+##  5       80   house    KY     R        0          247   555      0.445045
+##  6       80   house    PA     R        0          247   555      0.445045
+##  7       80   house    CA     R        0          247   555      0.445045
+##  8       80   house    NY     D        1          247   555      0.445045
+##  9       80   house    WI     R        0          247   555      0.445045
+## 10       80   house    MA     R        0          247   555      0.445045
+## # ... with 18,625 more rows</code></pre>
+</section>
+<section id="chaining-operations" class="slide level1">
+<h1>Chaining operations</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(
+  <span class="kw">group_by</span>(
+    <span class="kw">mutate</span>(
+      <span class="kw">filter</span>(
+        congress_age, congress <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>
+      ), 
+      <span class="dt">democrat =</span> <span class="kw">ifelse</span>(party <span class="op">==</span><span class="st"> &#39;D&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+    ),
+    congress, chamber
+  ),
+  <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat),
+  <span class="dt">total =</span> <span class="kw">n</span>(),
+  <span class="dt">prop_democrat =</span> num_democrat <span class="op">/</span><span class="st"> </span>total
+)</code></pre></div>
+</section>
+<section id="the-pipe-is-the-answer" class="slide level1">
+<h1>The pipe <code>%&gt;%</code> is the answer</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">congress_age <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(congress <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">democrat =</span> <span class="kw">ifelse</span>(party <span class="op">==</span><span class="st"> &#39;D&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(congress, chamber) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat),
+    <span class="dt">total =</span> <span class="kw">n</span>(),
+    <span class="dt">prop_democrat =</span> num_democrat <span class="op">/</span><span class="st"> </span>total
+  )</code></pre></div>
+</section>
+<section id="the-two-are-identical" class="slide level1">
+<h1>The two are identical</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pipe_congress &lt;-<span class="st"> </span>congress_age <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(congress <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">democrat =</span> <span class="kw">ifelse</span>(party <span class="op">==</span><span class="st"> &#39;D&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(congress, chamber) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat),
+    <span class="dt">total =</span> <span class="kw">n</span>(),
+    <span class="dt">prop_democrat =</span> num_democrat <span class="op">/</span><span class="st"> </span>total
+  )
+
+nested_congress &lt;-<span class="st"> </span><span class="kw">summarise</span>(
+  <span class="kw">group_by</span>(
+    <span class="kw">mutate</span>(
+      <span class="kw">filter</span>(
+        congress_age, congress <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>
+      ), 
+      <span class="dt">democrat =</span> <span class="kw">ifelse</span>(party <span class="op">==</span><span class="st"> &#39;D&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+    ),
+    congress, chamber
+  ),
+  <span class="dt">num_democrat =</span> <span class="kw">sum</span>(democrat),
+  <span class="dt">total =</span> <span class="kw">n</span>(),
+  <span class="dt">prop_democrat =</span> num_democrat <span class="op">/</span><span class="st"> </span>total
+)
+
+<span class="kw">identical</span>(pipe_congress, nested_congress)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+</section>
+<section id="your-turn-10" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>Look at the following nested code and determine what is being done. Then translate this code to use the pipe operator.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(
+  <span class="kw">group_by</span>(
+    <span class="kw">mutate</span>(
+      <span class="kw">filter</span>(
+        diamonds, 
+        color <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;D&#39;</span>, <span class="st">&#39;E&#39;</span>, <span class="st">&#39;F&#39;</span>) <span class="op">&amp;</span><span class="st"> </span>cut <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Fair&#39;</span>, <span class="st">&#39;Good&#39;</span>, <span class="st">&#39;Very Good&#39;</span>)
+      ),
+      <span class="dt">f_color =</span> <span class="kw">ifelse</span>(color <span class="op">==</span><span class="st"> &#39;F&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>),
+      <span class="dt">vg_cut =</span> <span class="kw">ifelse</span>(cut <span class="op">==</span><span class="st"> &#39;Very Good&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+    ),
+    clarity
+  ),
+  <span class="dt">avg =</span> <span class="kw">mean</span>(carat),
+  <span class="dt">sd =</span> <span class="kw">sd</span>(carat),
+  <span class="dt">avg_p =</span> <span class="kw">mean</span>(price),
+  <span class="dt">num =</span> <span class="kw">n</span>(),
+  <span class="dt">summary_f_color =</span> <span class="kw">mean</span>(f_color),
+  <span class="dt">summary_vg_cut =</span> <span class="kw">mean</span>(vg_cut)
+)</code></pre></div>
+</section>
+<section id="other-useful-dplyr-functions" class="slide level1">
+<h1>Other Useful dplyr functions</h1>
+<p>There are a set of functions that can greatly simplify data operations. These functions end with: + <code>*_if</code> + <code>*_each</code> + <code>*_all</code> + <code>*_at</code></p>
+</section>
+<section id="simple-example" class="slide level1">
+<h1>Simple example</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rename_if</span>(congress_age, is.character, toupper)</code></pre></div>
+<pre><code>## # A tibble: 18,635 x 13
+##    congress CHAMBER BIOGUIDE FIRSTNAME MIDDLENAME  LASTNAME SUFFIX
+##       &lt;int&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
+##  1       80   house  M000112    Joseph  Jefferson Mansfield   &lt;NA&gt;
+##  2       80   house  D000448    Robert        Lee  Doughton   &lt;NA&gt;
+##  3       80   house  S000001    Adolph    Joachim    Sabath   &lt;NA&gt;
+##  4       80   house  E000023   Charles     Aubrey     Eaton   &lt;NA&gt;
+##  5       80   house  L000296   William       &lt;NA&gt;     Lewis   &lt;NA&gt;
+##  6       80   house  G000017     James         A. Gallagher   &lt;NA&gt;
+##  7       80   house  W000265   Richard     Joseph     Welch   &lt;NA&gt;
+##  8       80   house  B000565       Sol       &lt;NA&gt;     Bloom   &lt;NA&gt;
+##  9       80   house  H000943    Merlin       &lt;NA&gt;      Hull   &lt;NA&gt;
+## 10       80   house  G000169   Charles   Laceille   Gifford   &lt;NA&gt;
+## # ... with 18,625 more rows, and 6 more variables: birthday &lt;date&gt;,
+## #   STATE &lt;chr&gt;, PARTY &lt;chr&gt;, incumbent &lt;lgl&gt;, termstart &lt;date&gt;, age &lt;dbl&gt;</code></pre>
+</section>
+<section id="more-realistic-example" class="slide level1">
+<h1>More realistic example</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">starwars <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(species, gender) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise_if</span>(is.numeric, mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## # A tibble: 43 x 5
+## # Groups:   species [?]
+##      species gender height      mass birth_year
+##        &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+##  1    Aleena   male     79  15.00000        NaN
+##  2  Besalisk   male    198 102.00000        NaN
+##  3    Cerean   male    198  82.00000       92.0
+##  4  Chagrian   male    196       NaN        NaN
+##  5  Clawdite female    168  55.00000        NaN
+##  6     Droid   none    200 140.00000       15.0
+##  7     Droid   &lt;NA&gt;    120  46.33333       72.5
+##  8       Dug   male    112  40.00000        NaN
+##  9      Ewok   male     88  20.00000        8.0
+## 10 Geonosian   male    183  80.00000        NaN
+## # ... with 33 more rows</code></pre>
+</section>
+<section id="can-call-more-than-one-function" class="slide level1">
+<h1>Can call more than one function</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">starwars <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(species, gender) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise_if</span>(is.numeric, <span class="kw">funs</span>(mean, median), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">add_tally</span>()</code></pre></div>
+<pre><code>## # A tibble: 43 x 9
+## # Groups:   species [38]
+##      species gender height_mean mass_mean birth_year_mean height_median
+##        &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;         &lt;dbl&gt;
+##  1    Aleena   male          79  15.00000             NaN            79
+##  2  Besalisk   male         198 102.00000             NaN           198
+##  3    Cerean   male         198  82.00000            92.0           198
+##  4  Chagrian   male         196       NaN             NaN           196
+##  5  Clawdite female         168  55.00000             NaN           168
+##  6     Droid   none         200 140.00000            15.0           200
+##  7     Droid   &lt;NA&gt;         120  46.33333            72.5            97
+##  8       Dug   male         112  40.00000             NaN           112
+##  9      Ewok   male          88  20.00000             8.0            88
+## 10 Geonosian   male         183  80.00000             NaN           183
+## # ... with 33 more rows, and 3 more variables: mass_median &lt;dbl&gt;,
+## #   birth_year_median &lt;dbl&gt;, n &lt;int&gt;</code></pre>
+</section>
+<section id="read-in-your-own-data" class="slide level1">
+<h1>Read in your own data</h1>
+<ul>
+<li>We will use data posted to GitHub: <a href="https://github.com/lebebr01/iowa_data_science/tree/master/data" class="uri">https://github.com/lebebr01/iowa_data_science/tree/master/data</a></li>
+</ul>
+</section>
+<section id="data-import" class="slide level1">
+<h1>Data Import</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ufo &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/lebebr01/iowa_data_science/master/data/ufo.csv&quot;</span>)</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   `Date / Time` = col_character(),
+##   City = col_character(),
+##   State = col_character(),
+##   Shape = col_character(),
+##   Duration = col_character(),
+##   Summary = col_character(),
+##   Posted = col_character()
+## )</code></pre>
+</section>
+<section id="show-data" class="slide level1">
+<h1>Show Data</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ufo</code></pre></div>
+<pre><code>## # A tibble: 8,031 x 7
+##     `Date / Time`                     City State    Shape    Duration
+##             &lt;chr&gt;                    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;
+##  1 12/12/14 17:30              North Wales    PA Triangle   5 minutes
+##  2 12/12/14 12:40             Cartersville    GA  Unknown 3.6 minutes
+##  3 12/12/14 06:30 Isle of Man (UK/England)  &lt;NA&gt;    Light   2 seconds
+##  4 12/12/14 01:00               Miamisburg    OH Changing        &lt;NA&gt;
+##  5 12/12/14 00:00             Spotsylvania    VA  Unknown    1 minute
+##  6 12/11/14 23:25                   Kenner    LA  Chevron   ~1 minute
+##  7 12/11/14 23:15                   Eugene    OR     Disk   2 minutes
+##  8 12/11/14 20:04                  Phoenix    AZ  Chevron   3 minutes
+##  9 12/11/14 20:00                 Franklin    NC     Disk   5 minutes
+## 10 12/11/14 18:30                 Longview    WA Cylinder  10 seconds
+## # ... with 8,021 more rows, and 2 more variables: Summary &lt;chr&gt;,
+## #   Posted &lt;chr&gt;</code></pre>
+</section>
+<section id="manual-column-names" class="slide level1">
+<h1>Manual column names</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ufo_man &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/lebebr01/iowa_data_science/master/data/ufo.csv&quot;</span>, 
+         <span class="dt">skip =</span> <span class="dv">1</span>, 
+         <span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&#39;Date/Time&#39;</span>, <span class="st">&#39;City&#39;</span>, <span class="st">&#39;State&#39;</span>, 
+                       <span class="st">&#39;Shape&#39;</span>, <span class="st">&#39;Duration&#39;</span>, <span class="st">&#39;Summary&#39;</span>,
+                       <span class="st">&#39;Posted&#39;</span>))</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   `Date/Time` = col_character(),
+##   City = col_character(),
+##   State = col_character(),
+##   Shape = col_character(),
+##   Duration = col_character(),
+##   Summary = col_character(),
+##   Posted = col_character()
+## )</code></pre>
+</section>
+<section id="manual-column-names-output" class="slide level1">
+<h1>Manual column names output</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ufo_man</code></pre></div>
+<pre><code>## # A tibble: 8,031 x 7
+##       `Date/Time`                     City State    Shape    Duration
+##             &lt;chr&gt;                    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;
+##  1 12/12/14 17:30              North Wales    PA Triangle   5 minutes
+##  2 12/12/14 12:40             Cartersville    GA  Unknown 3.6 minutes
+##  3 12/12/14 06:30 Isle of Man (UK/England)  &lt;NA&gt;    Light   2 seconds
+##  4 12/12/14 01:00               Miamisburg    OH Changing        &lt;NA&gt;
+##  5 12/12/14 00:00             Spotsylvania    VA  Unknown    1 minute
+##  6 12/11/14 23:25                   Kenner    LA  Chevron   ~1 minute
+##  7 12/11/14 23:15                   Eugene    OR     Disk   2 minutes
+##  8 12/11/14 20:04                  Phoenix    AZ  Chevron   3 minutes
+##  9 12/11/14 20:00                 Franklin    NC     Disk   5 minutes
+## 10 12/11/14 18:30                 Longview    WA Cylinder  10 seconds
+## # ... with 8,021 more rows, and 2 more variables: Summary &lt;chr&gt;,
+## #   Posted &lt;chr&gt;</code></pre>
+</section>
+<section id="manual-column-types" class="slide level1">
+<h1>Manual column types</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ufo_date &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/ufo.csv&quot;</span>, 
+         <span class="dt">col_types =</span> <span class="kw">list</span>(
+           <span class="st">&#39;Date / Time&#39;</span> =<span class="st"> </span><span class="kw">col_datetime</span>(<span class="dt">format =</span> <span class="st">&quot;%m/%d/%y %H:%M&quot;</span>),
+           <span class="dt">City =</span> <span class="kw">col_character</span>(),
+           <span class="dt">State =</span> <span class="kw">col_character</span>(),
+           <span class="dt">Shape =</span> <span class="kw">col_character</span>(),
+           <span class="dt">Duration =</span> <span class="kw">col_character</span>(),
+           <span class="dt">Summary =</span> <span class="kw">col_character</span>(),
+           <span class="dt">Posted =</span> <span class="kw">col_character</span>()
+         ))</code></pre></div>
+<pre><code>## Warning in rbind(names(probs), probs_f): number of columns of result is not
+## a multiple of vector length (arg 1)</code></pre>
+<pre><code>## Warning: 56 parsing failures.
+## row # A tibble: 5 x 5 col     row         col                 expected   actual           file expected   &lt;int&gt;       &lt;chr&gt;                    &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt; actual 1   119 Date / Time date like %m/%d/%y %H:%M  12/1/14 &#39;Data/ufo.csv&#39; file 2   194 Date / Time date like %m/%d/%y %H:%M 11/27/14 &#39;Data/ufo.csv&#39; row 3   236 Date / Time date like %m/%d/%y %H:%M 11/24/14 &#39;Data/ufo.csv&#39; col 4   407 Date / Time date like %m/%d/%y %H:%M 11/15/14 &#39;Data/ufo.csv&#39; expected 5   665 Date / Time date like %m/%d/%y %H:%M 10/31/14 &#39;Data/ufo.csv&#39;
+## ... ................. ... .................................................................... ........ .................................................................... ...... .................................................................... .... .................................................................... ... .................................................................... ... .................................................................... ........ ....................................................................
+## See problems(...) for more details.</code></pre>
+</section>
+<section id="manual-column-types-output" class="slide level1">
+<h1>Manual column types output</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ufo_date</code></pre></div>
+<pre><code>## # A tibble: 8,031 x 7
+##          `Date / Time`                     City State    Shape    Duration
+##                 &lt;dttm&gt;                    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;
+##  1 2014-12-12 17:30:00              North Wales    PA Triangle   5 minutes
+##  2 2014-12-12 12:40:00             Cartersville    GA  Unknown 3.6 minutes
+##  3 2014-12-12 06:30:00 Isle of Man (UK/England)  &lt;NA&gt;    Light   2 seconds
+##  4 2014-12-12 01:00:00               Miamisburg    OH Changing        &lt;NA&gt;
+##  5 2014-12-12 00:00:00             Spotsylvania    VA  Unknown    1 minute
+##  6 2014-12-11 23:25:00                   Kenner    LA  Chevron   ~1 minute
+##  7 2014-12-11 23:15:00                   Eugene    OR     Disk   2 minutes
+##  8 2014-12-11 20:04:00                  Phoenix    AZ  Chevron   3 minutes
+##  9 2014-12-11 20:00:00                 Franklin    NC     Disk   5 minutes
+## 10 2014-12-11 18:30:00                 Longview    WA Cylinder  10 seconds
+## # ... with 8,021 more rows, and 2 more variables: Summary &lt;chr&gt;,
+## #   Posted &lt;chr&gt;</code></pre>
+</section>
+<section id="still-problems" class="slide level1">
+<h1>Still problems</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">problems</span>(ufo_date)</code></pre></div>
+<pre><code>## # A tibble: 56 x 5
+##      row         col                 expected   actual           file
+##    &lt;int&gt;       &lt;chr&gt;                    &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;
+##  1   119 Date / Time date like %m/%d/%y %H:%M  12/1/14 &#39;Data/ufo.csv&#39;
+##  2   194 Date / Time date like %m/%d/%y %H:%M 11/27/14 &#39;Data/ufo.csv&#39;
+##  3   236 Date / Time date like %m/%d/%y %H:%M 11/24/14 &#39;Data/ufo.csv&#39;
+##  4   407 Date / Time date like %m/%d/%y %H:%M 11/15/14 &#39;Data/ufo.csv&#39;
+##  5   665 Date / Time date like %m/%d/%y %H:%M 10/31/14 &#39;Data/ufo.csv&#39;
+##  6   797 Date / Time date like %m/%d/%y %H:%M 10/25/14 &#39;Data/ufo.csv&#39;
+##  7   946 Date / Time date like %m/%d/%y %H:%M 10/19/14 &#39;Data/ufo.csv&#39;
+##  8  1081 Date / Time date like %m/%d/%y %H:%M 10/14/14 &#39;Data/ufo.csv&#39;
+##  9  1122 Date / Time date like %m/%d/%y %H:%M 10/12/14 &#39;Data/ufo.csv&#39;
+## 10  1123 Date / Time date like %m/%d/%y %H:%M 10/12/14 &#39;Data/ufo.csv&#39;
+## # ... with 46 more rows</code></pre>
+</section>
+<section id="other-text-formats" class="slide level1">
+<h1>Other text formats</h1>
+<ul>
+<li>tsv - tab separated files - <code>read_tsv</code></li>
+<li>fixed width files - <code>read_fwf</code></li>
+<li>white space generally - <code>read_table</code></li>
+<li>delimiter generally - <code>read_delim</code></li>
+</ul>
+</section>
+<section id="your-turn-11" class="slide level1">
+<h1>Your Turn</h1>
+<ol type="1">
+<li>There is a tsv file posted on icon called “lotr_clean.tsv”. Download this and read this data file into R.</li>
+<li>Instead of specifying the path, use the function <code>file.choose()</code>. For example, <code>read_tsv(file.choose())</code>.
+<ul>
+<li>What does this function do?</li>
+<li>Would you recommend this to be used in a reproducible document?</li>
+</ul></li>
+</ol>
+</section>
+<section id="excel-files" class="slide level1">
+<h1>Excel Files</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&#39;readxl&#39;</span>)</code></pre></div>
+</section>
+<section id="read_excel" class="slide level1">
+<h1><code>read_excel</code></h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
+<span class="kw">read_excel</span>(<span class="st">&#39;data/titanic.xlsx&#39;</span>)</code></pre></div>
+<pre><code>## # A tibble: 891 x 12
+##    PassengerId Survived Pclass
+##          &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+##  1           1        0      3
+##  2           2        1      1
+##  3           3        1      3
+##  4           4        1      1
+##  5           5        0      3
+##  6           6        0      3
+##  7           7        0      1
+##  8           8        0      3
+##  9           9        1      3
+## 10          10        1      2
+## # ... with 881 more rows, and 9 more variables: Name &lt;chr&gt;, Sex &lt;chr&gt;,
+## #   Age &lt;dbl&gt;, SibSp &lt;dbl&gt;, Parch &lt;dbl&gt;, Ticket &lt;chr&gt;, Fare &lt;dbl&gt;,
+## #   Cabin &lt;chr&gt;, Embarked &lt;chr&gt;</code></pre>
+</section>
+<section id="write-output-files" class="slide level1">
+<h1>Write Output Files</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ufo_count &lt;-<span class="st"> </span>ufo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(State) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">num_state =</span> <span class="kw">n</span>())
+
+<span class="kw">write_csv</span>(ufo_count, <span class="dt">path =</span> <span class="st">&#39;path/to/save/file.csv&#39;</span>)</code></pre></div>
+</section>
+<section id="additional-resources" class="slide level1">
+<h1>Additional Resources</h1>
+<ul>
+<li>R for Data Science: <a href="http://r4ds.had.co.nz/" class="uri">http://r4ds.had.co.nz/</a></li>
+</ul>
 </section>
     </div>
   </div>

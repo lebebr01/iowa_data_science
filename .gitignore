@@ -40,3 +40,4 @@ vignettes/*.pdf
 
 reveal.js/
 tidyverse_files/
+.Rproj.user
