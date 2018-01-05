@@ -1,0 +1,1 @@
+pandoc -s -S --template=default.revealjs -t revealjs --variable theme="simple" --variable transition="fade" --variable slideNumber="true" --variable controls="false" --include-in-header custom.css tidyverse.md -o tidyverse.html
