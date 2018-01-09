@@ -66,16 +66,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   	.reveal h1 { font-size: 2em; }
   	.reveal h2 {font-size: 1.25em;}
   	.reveal h3 {font-size: 1em;}
-  Reveal.initialize({
-  
-  	...
-  
-  	width: "100%",
-  	height: "100%",
-  	margin: 0,
-  	minScale: 1,
-  	maxScale: 1
-  });
   	body {
     background-image: url(figures/ui_logo.jpg);
     position: absolute;
@@ -95,10 +85,57 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <h3 class="date">January 10, 2018</h3>
 </section>
 
+<section id="about-me" class="slide level1">
+<h1>About Me</h1>
+<ul>
+<li>I’m an Assistant Professor in the College of Education
+<ul>
+<li>I enjoy model building, particularly longitudinal models, and statistical programming.</li>
+</ul></li>
+<li>I’ve used R for over 10 years.
+<ul>
+<li>I have 4 R packages, 3 on CRAN, 1 on GitHub
+<ul>
+<li>simglm</li>
+<li>pdfsearch</li>
+<li>highlightHTML</li>
+<li>SPSStoR</li>
+</ul></li>
+</ul></li>
+<li>GitHub Repository for this workshop: <a href="https://github.com/lebebr01/iowa_data_science" class="uri">https://github.com/lebebr01/iowa_data_science</a></li>
+</ul>
+</section>
+<section id="why-teach-the-tidyverse" class="slide level1">
+<h1>Why teach the tidyverse</h1>
+<ul>
+<li>The tidyverse is a series of packages developed by Hadley Wickham and his team at RStudio. <a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a></li>
+<li>I teach/use the tidyverse for 3 major reasons:
+<ul>
+<li>Simple functions that do one thing well</li>
+<li>Consistent implementations across functions within tidyverse (i.e. common APIs)</li>
+<li>Provides a framework for data manipulation</li>
+</ul></li>
+</ul>
+</section>
+<section id="psqf-6250" class="slide level1">
+<h1>PSQF 6250</h1>
+<ul>
+<li>Small plug for my online course</li>
+<li><a href="https://myui.uiowa.edu/my-ui/courses/details.page?_ticket=X-wrjriCUraqNq7N5T9reX3rnNZc97wT&amp;id=848077&amp;ci=148839" class="uri">https://myui.uiowa.edu/my-ui/courses/details.page?_ticket=X-wrjriCUraqNq7N5T9reX3rnNZc97wT&amp;id=848077&amp;ci=148839</a></li>
+</ul>
+</section>
 <section id="course-setup" class="slide level1">
 <h1>Course Setup</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 2.2.1     v purrr   0.2.4
+## v tibble  1.3.4     v dplyr   0.7.4
+## v tidyr   0.7.2     v stringr 1.2.0
+## v readr   1.1.1     v forcats 0.2.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
 </section>
 <section id="explore-data" class="slide level1">
 <h1>Explore Data</h1>
@@ -944,7 +981,13 @@ nested_congress &lt;-<span class="st"> </span><span class="kw">summarise</span>(
 </section>
 <section id="other-useful-dplyr-functions" class="slide level1">
 <h1>Other Useful dplyr functions</h1>
-<p>There are a set of functions that can greatly simplify data operations. These functions end with: + <code>*_if</code> + <code>*_each</code> + <code>*_all</code> + <code>*_at</code></p>
+<p>There are a set of functions that can greatly simplify data operations. These functions end with:</p>
+<ul>
+<li><code>*_if</code></li>
+<li><code>*_each</code></li>
+<li><code>*_all</code></li>
+<li><code>*_at</code></li>
+</ul>
 </section>
 <section id="simple-example" class="slide level1">
 <h1>Simple example</h1>

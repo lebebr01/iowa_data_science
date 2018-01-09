@@ -4,6 +4,30 @@ author: "Brandon LeBeau"
 date: "January 10, 2018"
 ---
 
+# About Me
+- I'm an Assistant Professor in the College of Education
+    + I enjoy model building, particularly longitudinal models, and statistical programming.
+- I've used R for over 10 years.
+    + I have 4 R packages, 3 on CRAN, 1 on GitHub
+        * simglm
+        * pdfsearch
+        * highlightHTML
+        * SPSStoR
+- GitHub Repository for this workshop: <https://github.com/lebebr01/iowa_data_science>
+
+# Why teach the tidyverse
+- The tidyverse is a series of packages developed by Hadley Wickham and his team at RStudio. <https://www.tidyverse.org/>
+- I teach/use the tidyverse for 3 major reasons:
+    + Simple functions that do one thing well
+    + Consistent implementations across functions within tidyverse (i.e. common APIs)
+    + Provides a framework for data manipulation
+    
+    
+# PSQF 6250
+- Small plug for my online course
+- <https://myui.uiowa.edu/my-ui/courses/details.page?_ticket=X-wrjriCUraqNq7N5T9reX3rnNZc97wT&id=848077&ci=148839>
+
+
 # Course Setup
 
 
@@ -15,6 +39,23 @@ install.packages("tidyverse")
 
 ```r
 library(tidyverse)
+```
+
+```
+## -- Attaching packages --------------------------------------- tidyverse 1.2.1 --
+```
+
+```
+## v ggplot2 2.2.1     v purrr   0.2.4
+## v tibble  1.3.4     v dplyr   0.7.4
+## v tidyr   0.7.2     v stringr 1.2.0
+## v readr   1.1.1     v forcats 0.2.0
+```
+
+```
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
 ```
 
 # Explore Data
@@ -1018,6 +1059,7 @@ summarise(
 
 # Other Useful dplyr functions
 There are a set of functions that can greatly simplify data operations. These functions end with:
+
 + `*_if` 
 + `*_each` 
 + `*_all`

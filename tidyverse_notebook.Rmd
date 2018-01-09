@@ -238,7 +238,7 @@ congress_80 <- filter(congress_age, congress == 80)
 
 # Filter character variables
 ```{r senate}
-senate <- filter(congress_age, chamber == 'senate')
+filter(congress_age, chamber == 'senate')
 ```
 
 # Combine Operations - AND
