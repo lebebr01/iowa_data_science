@@ -1,7 +1,7 @@
 ---
 title: "Introduction to tidyverse/R"
 author: "Brandon LeBeau"
-date: "January 10, 2018"
+date: "September 19, 2018"
 ---
 
 # About Me
