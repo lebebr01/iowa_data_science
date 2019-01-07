@@ -1,7 +1,7 @@
 ---
 title: "Introduction to tidyverse/R"
 author: "Brandon LeBeau"
-date: "January 10, 2018"
+date: "January 8, 2019"
 output: html_notebook
 ---
 
@@ -133,6 +133,32 @@ ggplot(midwest,
                      breaks = seq(0, 80000, 20000)) + 
   scale_y_continuous("Percent College Graduates") + 
   scale_color_discrete("State")
+```
+
+# Add in plot title and subtitle
+```{r ggplottitle, eval = FALSE}
+ggplot(midwest, 
+       aes(x = popdensity, y = percollege, color = state)) +
+  geom_point() + 
+  scale_x_continuous("Population Density", 
+                     breaks = seq(0, 80000, 20000)) + 
+  scale_y_continuous("Percent College Graduates") + 
+  scale_color_discrete("State") + 
+  labs(title = "Percent College Educated by Population Density",
+       subtitle = "County level data for five midwest states")
+```
+
+# Add in plot title and subtitle Output
+```{r ggplottitleout, echo = FALSE}
+ggplot(midwest, 
+       aes(x = popdensity, y = percollege, color = state)) +
+  geom_point() + 
+  scale_x_continuous("Population Density", 
+                     breaks = seq(0, 80000, 20000)) + 
+  scale_y_continuous("Percent College Graduates") + 
+  scale_color_discrete("State") + 
+  labs(title = "Percent College Educated by Population Density",
+       subtitle = "County level data for five midwest states")
 ```
 
 
