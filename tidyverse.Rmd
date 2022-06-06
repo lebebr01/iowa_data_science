@@ -1,7 +1,7 @@
 ---
 title: "Introduction to tidyverse/R"
 author: "Brandon LeBeau"
-date: "January 8, 2019"
+date: "June 6, 2022"
 output:
   revealjs::revealjs_presentation:
     theme: simple
@@ -18,14 +18,16 @@ output:
 # Workshop Logistics
 
 ## About Me
-- I'm an Assistant Professor in the College of Education
+- I'm an Associate Professor in the College of Education
     + I enjoy model building, particularly longitudinal models, and statistical programming.
-- I've used R for over 10 years.
-    + I have 4 R packages, 3 on CRAN, 1 on GitHub, a few more in development.
-        * simglm
-        * pdfsearch
-        * highlightHTML
-        * SPSStoR
+- I've used R for over 15 years.
+    + I have 6 R packages, 3 on CRAN, 3 on GitHub, a few more in development.
+        * [simglm](https://simglm.brandonlebeau.org/)
+        * [pdfsearch](https://pdfsearch.brandonlebeau.org/)
+        * [highlightHTML](https://github.com/lebebr01/highlightHTML)
+        * [SPSStoR](https://github.com/lebebr01/SPSStoR)
+        * [metaRmat](https://github.com/lebebr01/metaRmat)
+        * [statthink](https://github.com/lebebr01/statthink)
 - GitHub Repository for this workshop: <https://github.com/lebebr01/iowa_data_science>
 
 ## Why teach the tidyverse
@@ -34,11 +36,6 @@ output:
     + Simple functions that do one thing well
     + Consistent implementations across functions within tidyverse (i.e. common APIs)
     + Provides a framework for data manipulation
-    
-    
-## PSQF 6250
-- Small plug for my online course
-- <https://myui.uiowa.edu/my-ui/courses/details.page?id=875209&ci=148839>
 
 
 # Introduction to Tidyverse -- Graphics
@@ -252,9 +249,24 @@ set.seed(1)
 rnorm(sd = 1, n = 5, mean = 0)
 ```
 
+## `head()` is your friend
+```{r}
+head(midwest)
+```
+
+## So is `str()`
+```{r}
+str(midwest)
+```
+
+## Finally, so is `summary()`
+```{r}
+summary(midwest)
+```
+
+
 ## Working through Errors
 1. Use `?function_name` to explore the details of the function. The examples at the bottom of every R help page can be especially helpful.
-    + <https://www.rdocumentation.org/> provided by DataCamp is a great alternative as well.
 2. If this does not help, copy and paste the error and search on the internet.
 
 
@@ -271,27 +283,28 @@ The `dplyr` package uses verbs for common data manipulation tasks. These include
 - `summarise()`
 
 ## Data
-<https://fivethirtyeight.com/features/both-republicans-and-democrats-have-an-age-problem/>
+<https://allisonhorst.github.io/palmerpenguins/>
 
-```{r fivethirtyeight, eval = FALSE}
-install.packages('fivethirtyeight')
-library(fivethirtyeight)
+```{r penguins, eval = FALSE}
+install.packages('palmerpenguins')
+library(palmerpenguins)
 ```
 
-```{r congress, echo = FALSE}
-library(fivethirtyeight)
-DT::datatable(congress_age[1:100, ])
+```{r load-penguins, echo = FALSE}
+library(palmerpenguins)
+head(penguins)
 ```
 
 
 ## Using `filter`
-```{r 80th}
-filter(congress_age, congress == 80)
+```{r filter-year}
+filter(penguins, year == 2007)
 ```
 
 ## Save filtered results to object
 ```{r 80th_save}
-congress_80 <- filter(congress_age, congress == 80)
+penguins_2007 <- filter(penguins, year == 2007)
+penguins_2007
 ```
 
 ## Other operators for numbers
@@ -301,84 +314,87 @@ congress_80 <- filter(congress_age, congress == 80)
 - `<=`
 
 ## Your Turn
-1. Select all rows where the congress member was older than 80 at the start of the term.
-2. Use the `is.na` function to identify congress members that have missing middlenames.
+1. Select all rows where the penguins body mass was less than or equal to 3500 grams.
+2. Use the `is.na` function to identify penguins with missing sex.
 
 ## Filter character variables
-```{r senate}
-senate <- filter(congress_age, chamber == 'senate')
+```{r adelie}
+adelie <- filter(penguins, species == 'Adelie')
+adelie
 ```
 
+## Remember, case sensitive
+```{r adelie-error, error = TRUE}
+filter(penguins, species == 'adelie')
+```
+
+
 ## Combine Operations - AND
-```{r 80senate}
-filter(congress_age, congress == 80, chamber == 'senate')
+```{r adelie-2007}
+filter(penguins, year == 2007, species == 'Adelie')
 ```
 
 ## Equivalent AND Statement
-```{r 80senate2}
-filter(congress_age, congress == 80 & chamber == 'senate')
+```{r adelie-2007-2}
+filter(penguins, year == 2007 & species == 'Adelie')
 ```
 
 ## Filter - OR
 ```{r filter_or}
-filter(congress_age, congress == 80 | congress == 81)
+filter(penguins, year == 2007 | year == 2008)
 ```
 
 ## `%in%`
 ```{r filter_2}
-filter(congress_age, congress %in% c(80, 81))
+filter(penguins, year %in% c(2007, 2008))
 ```
 
 ## Not Operator
-```{r not_80}
-filter(congress_age, congress != 80)
+```{r not-2007}
+filter(penguins, year != 2007)
 ```
 
 ## Not Operator 2
-```{r 80_notsenate}
-filter(congress_age, congress == 80 & !chamber == 'senate')
-```
-
-## Working with logicals
-```{r logicals}
-filter(congress_age, incumbent)
+```{r not-adelie-2007}
+filter(penguins, year == 2007 & !species == 'Adelie')
 ```
 
 ## Your Turn
-1. Select the Senators from Iowa.
-2. Select the Senators from Iowa that are not inbumbents.
+1. Look at the first few rows from the `gss_cat` data.
+2. Select those that are married and younger than 30.
+3. Select those that are not married and watch more than 5 hours of tv.
 
 ## All boolean options
 ![](figures/boolean.png)
 
 ## Using `count`
 ```{r count}
-count(congress_age, party)
-count(congress_age, incumbent)
+count(penguins, year)
+count(penguins, island)
 ```
 
 ## Using `arrange`
 ```{r simple_arrange}
-arrange(congress_age, state)
+arrange(penguins, bill_length_mm)
 ```
 
 ## Add more variables
 ```{r two_arrange}
-arrange(congress_age, state, party)
+arrange(penguins, bill_length_mm, island)
 ```
 
 ## Descending Order
 ```{r descend}
-arrange(congress_age, desc(congress))
+arrange(penguins, desc(bill_depth_mm))
 ```
 
 ## Your Turn
-1. Count the number of congress members from each party that are older than 80 at term start.
-2. Arrange the result from above by the variable n.
+1. Using the `gss_cat` data, count the number within each political party (`partyid`).
+2. Arrange the data by age and marital status. 
 
 ## Using `select`
 ```{r select}
-select(congress_age, congress, chamber, party, age)
+select(penguins, island, bill_depth_mm, flipper_length_mm, sex)
 ```
 
 ## Helper functions
@@ -392,38 +408,53 @@ select(congress_age, congress, chamber, party, age)
 
 ## `starts_with` helper
 ```{r starts_with}
-select(congress_age, starts_with('s'))
+select(penguins, starts_with('s'))
 ```
 
 ## Contains helper
 ```{r contains}
-select(congress_age, contains('name'))
+select(penguins, contains('length'))
 ```
 
 ## Colon
 ```{r colon}
-select(congress_age, congress:birthday)
+select(penguins, flipper_length_mm:year)
 ```
 
 ## Drop variables
 ```{r drop}
-select(congress_age, -firstname, -state, -party, -incumbent, -chamber)
+select(penguins, -flipper_length_mm, -island, -bill_length_mm, -bill_depth_mm)
 ```
 
 ## Reorder with `everything`
 ```{r reorder}
-select(congress_age, congress, chamber, incumbent, age, everything())
+select(penguins, species, island, sex, year, everything())
 ```
 
 ## `rename` function
+- new_name = oldname
+
 ```{r rename}
-rename(congress_age, first_name = firstname, last_name = lastname)
+rename(penguins, penguin_species = species, penguin_island = island)
 ```
 
 ## Your Turn
-1. Using the `dplyr` helper functions, select all the variables that start with the letter 'c'.
-2. Rename the first three variables in the congress data to 'x1', 'x2', 'x3'.
-3. After renaming the first three variables, use this new data (ensure you saved the previous step to an object) to select these three variables with the `num_range` function.
+1. Using the `dplyr` helper functions and the `penguins` data, select all the attributes that are measured in millimeters.
+2. Rename the first three attributes in the `gss_cat` data to 'x1', 'x2', 'x3'.
+3. After renaming the first three attributes, use this new data (ensure you saved the previous step to an object) to select these three attributes with the `num_range` function.
+
+## Data
+<https://fivethirtyeight.com/features/both-republicans-and-democrats-have-an-age-problem/>
+
+```{r fivethirtyeight, eval = FALSE}
+install.packages('fivethirtyeight')
+library(fivethirtyeight)
+```
+
+```{r congress, echo = FALSE}
+library(fivethirtyeight)
+head(congress_age)
+```
 
 ## Using `mutate`
 ```{r mutate, error = FALSE}
@@ -532,12 +563,12 @@ summarise(
 )
 ```
 
-## The pipe `%>%` is the answer
+## The pipe `|>` is the answer
 ```{r pipe, eval = FALSE}
-congress_age %>%
-  filter(congress >= 100) %>%
-  mutate(democrat = ifelse(party == 'D', 1, 0)) %>%
-  group_by(congress, chamber) %>%
+congress_age |>
+  filter(congress >= 100) |>
+  mutate(democrat = ifelse(party == 'D', 1, 0)) |>
+  group_by(congress, chamber) |>
   summarise(
     num_democrat = sum(democrat),
     total = n(),
@@ -546,11 +577,11 @@ congress_age %>%
 ```
 
 ## The two are identical
-```{r identical}
-pipe_congress <- congress_age %>%
-  filter(congress >= 100) %>%
-  mutate(democrat = ifelse(party == 'D', 1, 0)) %>%
-  group_by(congress, chamber) %>%
+```{r identical, message = FALSE}
+pipe_congress <- congress_age |>
+  filter(congress >= 100) |>
+  mutate(democrat = ifelse(party == 'D', 1, 0)) |>
+  group_by(congress, chamber) |>
   summarise(
     num_democrat = sum(democrat),
     total = n(),
@@ -600,32 +631,39 @@ summarise(
 )
 ```
 
-## Other Useful dplyr functions
-There are a set of functions that can greatly simplify data operations. These functions end with:
-
-+ `*_if` 
-+ `*_each` 
-+ `*_all`
-+ `*_at`
-
-## Simple example
+## `rename_with()` to rename with a function
 ```{r rename_if}
-rename_if(congress_age, is.character, toupper)
+rename_with(penguins, toupper, ends_with('mm'))
 ```
 
-## More realistic example
+## Using `across()`
+- The `across()` function can be helpful to work with columns.
+
+## `across()` with `summarise()`
 ```{r summarise_if}
-starwars %>%
-  group_by(species, gender) %>%
-  summarise_if(is.numeric, mean, na.rm = TRUE)
+penguins %>%
+  group_by(species) %>%
+  summarise(across(where(is.numeric), 
+                   ~mean(.x, na.rm = TRUE)))
 ```
 
 ## Can call more than one function
-```{r summarise_if2}
-starwars %>%
-  group_by(species, gender) %>%
-  summarise_if(is.numeric, funs(mean, median), na.rm = TRUE) %>%
-  add_tally()
+```{r summarise-across}
+penguins %>%
+  group_by(species) %>%
+  summarise(across(where(is.numeric), 
+                   list(mean = ~mean(.x, na.rm = TRUE), 
+                        n_miss = ~ sum(is.na(.x)))))
+```
+
+## Can use other filter type helpers
+
+```{r summarise-across-ends}
+penguins %>%
+  group_by(species) %>%
+  summarise(across(ends_with('mm'), 
+                   list(mean = ~mean(.x, na.rm = TRUE), 
+                        n_miss = ~ sum(is.na(.x)))))
 ```
 
 # Data Import
@@ -688,7 +726,8 @@ problems(ufo_date)
 - delimiter generally - `read_delim`
 
 ## Your Turn
-1. There is a tsv file posted on icon called "lotr_clean.tsv". Download this and read this data file into R. 
+1. There is a tsv file posted on GitHub (<https://github.com/lebebr01/iowa_data_science/tree/master/data>) called "lotr_clean.tsv". Read this data file into R. 
+    + Note, you can also download this file to specify a path instead of the URL.
 2. Instead of specifying the path, use the function `file.choose()`. For example, `read_tsv(file.choose())`. 
     + What does this function do? 
     + Would you recommend this to be used in a reproducible document?
@@ -714,7 +753,8 @@ write_csv(ufo_count, path = 'path/to/save/file.csv')
 ```
 
 ## Additional Resources
-+ R for Data Science: <http://r4ds.had.co.nz/>
++ [R for Data Science](http://r4ds.had.co.nz/)
++ [Statistical Reasoning through computation and R](https://lebebr01.github.io/stat_thinking/)
 
 
 # Thank You!
