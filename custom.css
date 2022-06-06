@@ -1,14 +1,19 @@
 <style type="text/css">
 @import url(https://fonts.googleapis.com/css?family=News+Cycle:400,700);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 	.reveal h1 { font-size: 2em; }
 	.reveal h2 {font-size: 1.25em;}
 	.reveal h3 {font-size: 1em;}
 	body {
+	font-family: 'Fira Code'
   background-image: url(figures/ui_logo.jpg);
   position: absolute;
   background-repeat: no-repeat;
   background-position: 20px 950px;
   background-size: 250px;
 }
+  code {
+    font-family: 'Fira Code'
+  }
 </style>
